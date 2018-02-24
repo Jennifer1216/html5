@@ -10,3 +10,4 @@
  document.getElementsByTagName("html")[0].style.fontSize = document.documentElement.clientWidth/3 + "px";
 
 ```
+[点击这里，查看代码演示](https://github.com/Jennifer1216/html5/blob/master/touch/index.html)
