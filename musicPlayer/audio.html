@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="Author" content="FengYu">
+    <title>Tz-36期Js</title>
+    <style>
+        *{margin:0;padding:0;font-family: Microsoft YaHei,serif;}
+	    li{list-style: none;}
+        body {
+            background:url("images/bg.jpg") center/cover no-repeat;
+        }
+        .musicPlayer {
+            position: relative;
+            margin:0 auto;
+            width: 400px;
+            background:rgba(0,102,204,0.6)
+        }
+        .song-mess {
+            width: 100%;
+            height: 200px;
+            background:rgba(0,102,204,0.6);
+        }
+        .song-mess p {
+            padding-top:10px;
+            text-align: center;
+            color:#fff;
+            font-size:18px;
+        }
+        .song-mess .singer {
+            font-size:16px;
+        }
+        .song-mess .name  {
+            display: block;
+            margin: 0 auto;
+            width: 30px;
+            height: 30px;
+            background:rgba(255,255,255,.5);
+            color:#fff;
+            font-size:12px;
+            line-height: 30px;
+            text-align: center;
+            border-radius:50%;
+        }
+        .song-mess img {
+            display: block;
+            margin:10px auto 0;
+            width: 100px;
+            height: 100px;
+            border-radius:50%;
+        }
+        .song-mess img.move {
+            -webkit-animation: move 2s linear infinite ;
+            -moz-animation: move 2s linear infinite ;
+            -o-animation: move 2s linear infinite ;
+            -ms-animation: move 2s linear infinite ;
+            animation: move 2s linear infinite ;
+        }
+        @keyframes move {
+            0% {
+                -webkit-transform: rotate(0deg);
+                -moz-transform: rotate(0deg);
+                -o-transform: rotate(0deg);
+                -ms-animation: move 2s linear infinite ;
+                transform: rotate(0deg);
+            }
+            100% {
+                -webkit-transform: rotate(360deg);
+                -moz-transform: rotate(360deg);
+                -o-transform: rotate(360deg);
+                -ms-animation: move 2s linear infinite ;
+                transform: rotate(360deg);
+            }
+        }
+        .lyricBox {
+            width: 100%;
+            height: 400px;
+            text-align: center;
+            overflow: hidden;
+        }
+        .lyric {
+            margin-top:26px;
+            height: 300px;
+        }
+        .lyric p {
+            line-height: 3;
+            color:#fff;
+        }
+        .song-list {
+            position: absolute;
+            top:200px;
+            left:400px;
+            width: 300px;
+            height: 400px;
+            background:rgba(0,102,204,0.6);
+            color:#fff;
+            font-size:14px;
+            line-height: 2;
+            text-indent: 20px;
+        }
+        .song-list li {
+            cursor: pointer;
+        }
+        .progressBox span {
+            font-size:14px;
+            color:#ccc;
+        }
+        .progress {
+            position:relative;
+            display:inline-block;
+            width: 270px;
+            height: 10px;
+            background:#fff;
+            border-radius:5px;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        .progress p {
+            position: absolute;
+            top:0;
+            left:0;
+            width:0;
+            height:100%;
+            background:skyblue;
+            border-radius:5px;
+        }
+        .progress span {
+            position: absolute;
+            top:0;
+            left:0;
+            width: 10px;
+            height: 10px;
+            background:gray;
+            border-radius:50%;
+            cursor: pointer;
+        }
+        .icon {
+            width: 100%;
+            height: 60px;
+        }
+        .icon div {
+            float:left;
+            margin:0 26px;
+            width: 55px;
+            height: 55px;
+            background:url("images/iconPlay-63bef2.png");
+            cursor: pointer;
+        }
+        .icon div.pre {
+            background-position:0 -244px;
+        }
+        .icon div.pause{
+            background-position:0 -448px;
+        }
+        .icon div.next {
+            background-position:14px -244px;
+        }
+        .icon div.vol {
+            position: relative;
+            margin:20px;
+            width: 20px;
+            height: 20px;
+            background-position:350px 0;
+        }
+         .icon div.play {
+             background-position: 0 -548px;
+        }
+    </style>
+</head>
+<body>
+    <div class="musicPlayer">
+        <div class="song-mess">
+            <p class="song-name">樱散零乱</p>
+            <p class="singer">慕寒</p>
+            <img src="images/muhan.jpg" alt="muhan">
+            <span class="name">歌词</span>
+        </div>
+        <div class="lyricBox">
+            <div class="lyric">
+
+            </div>
+
+        </div>
+        <div class="song-list">
+            <ul>
+                <li data-songname="慕寒-樱散零乱.mp3">1.慕寒-樱散零乱.mp3</li>
+                <li data-songname="赵丽颖-小幸运.mp3">2.小幸运</li>
+                <li data-songname="容祖儿-重生-(电影《解忧杂货店》主题曲).mp3">3.重生</li>
+                <li data-songname="heartbeats">4.heartbeats</li>
+            </ul>
+        </div>
+        <div class="progressBox">
+            <span class="currentTime">00:00:00</span>
+            <div class="progress">
+                <p></p>
+                <span class="pro-bar"><i></i></span>
+            </div>
+            <span class="duration">00:00:00</span>
+        </div>
+        <div class="icon">
+            <div class="pre"></div>
+            <div class="pause"></div>
+            <div class="next"></div>
+            <div class="vol">
+                <p class="pro1"></p>
+                <p class="pro2"></p>
+            </div>
+        </div>
+        <p style="text-align: center;color:#ccc;font-size:12px;">&copy;2018-2019 曾玉婷 reserved</p>
+        <audio src="music/慕寒-樱散零乱.mp3"></audio>
+        <textarea id="lyr" style="display: none;">
+            [ver:v1.0]
+            [nickname:houqianchun]
+            [qqnumber:414226374]
+            [ti:]
+            [00:26.07]春又来 人已去 风烟残 夕阳晚
+            [00:33.50]樱花开 顷刻散 零乱
+            [00:41.38]年光逝 韶华落 飞絮转 不堪看
+            [00:48.70]路漫漫 空梦断 零乱
+            [01:04.73]渡忘川 彼岸 忘不掉 人长叹
+            [01:12.29]古井下 月光思念装满
+            [01:19.84]樱花瓣 飞过 风幽怨 水清寒
+            [01:27.39]离伤黯 游丝转 零乱
+            [01:35.26]渡忘川 彼岸 忘不掉 人长叹
+            [01:42.70]古井下 月光思念装满
+            [01:50.03]樱花瓣 飞过 风幽怨 水清寒
+            [01:57.47]离伤黯 游丝转 零乱
+            [02:05.23]离伤黯 游丝转 零乱
+        </textarea>
+    </div>
+    <script type="text/javascript">
+        var oAudio = document.getElementsByTagName("audio")[0],
+            oIcon = document.getElementsByClassName("icon")[0],
+            oPlayer = oIcon.getElementsByClassName("pause")[0],
+            oDuration = document.getElementsByClassName("duration")[0],
+            oCurrentTime = document.getElementsByClassName("currentTime")[0],
+            oProgress = document.getElementsByClassName("progress")[0],
+            proBar = oProgress.getElementsByTagName("span")[0],
+            rate = oProgress.getElementsByTagName("p")[0],
+            lyrText = document.getElementsByClassName("lyric")[0],
+            maxLeft = oProgress.offsetWidth - proBar.offsetWidth,
+            oImg = document.getElementsByTagName("img")[0],
+            mark = true,
+            timer = null;
+        oPlayer.onclick = function () {
+            if(mark){
+                oAudio.play();
+                oPlayer.className = "play";
+                timer = setInterval(nowTime,1000);
+                oImg.className = "move";
+                mark=false;
+            }else {
+                oAudio.pause();
+                oPlayer.className = "pause";
+                oImg.className = "";
+                mark=true;
+                clearInterval(timer);
+            }
+            oDuration.innerHTML = formTime(oAudio.duration);
+        };
+        function formTime(time){
+            var cTime = parseInt(time);
+            var hour = Math.floor(cTime/3600);
+            var minute = Math.floor(cTime%3600/60);
+            var second = Math.floor(cTime%60);
+            return addZero(hour)+":"+addZero(minute)+":"+addZero(second);
+        }
+        function nowTime(){
+            oCurrentTime.innerHTML = formTime(oAudio.currentTime);
+            var prop = oAudio.currentTime/oAudio.duration;
+            proBar.style.left = prop*maxLeft + "px";
+            rate.style.width = prop*maxLeft + proBar.offsetWidth + "px";
+        }
+        function addZero(n){
+            return n<10?"0"+n:n;
+        }
+        proBar.onmousedown = function (e) {
+            e = e || window.event;
+            var x = e.clientX - this.offsetLeft;
+            //alert(x);
+            document.onmousemove = function (e) {
+                e = e || window.event;
+                var left = e.clientX - x;
+                left = Math.max(0,left);
+                left = Math.min(left,maxLeft);
+                console.log(left)
+                proBar.style.left = left + "px";
+                rate.style.width = left + proBar.offsetWidth+ "px";
+                oAudio.currentTime = left/maxLeft*oAudio.duration;
+            };
+            document.onmouseup = function () {
+                this.onmousemove = null;
+                this.onmouseup = null;
+            }
+        };
+        /*oProgress.onclick = function (e) {
+            e = e || window.event;
+            var x = e.clientX - this.offsetLeft;
+            console.log(e.clientX);
+            console.log(this.offsetLeft)
+            console.log(x);
+            proBar.style.left = x  + "px";
+            rate.style.width = x + "px";
+            oAudio.currentTime = x/this.offsetWidth*oAudio.duration;
+        };*/
+        //获取歌词
+        var oLrc = document.getElementById("lyr").value,
+            lrcArr = oLrc.split("["),
+            html = "";
+        for(var i = 0; i < lrcArr.length; i++){
+            var arr = lrcArr[i].split("]");
+            //console.log(arr);
+            var time = arr[0].split(".");
+            var times = time[0].split(":");
+            //console.log(times);
+            var lyrTxt = arr[1];
+            var ms = times[0]*60+times[1]*1;
+            //console.log(ms);
+            //console.log(lyrTxt);
+            if(lyrTxt){
+                html += "<p id='t"+ms+"'>"+lyrTxt+"</p>";
+            }
+            //console.log(html);
+            lyrText.innerHTML = html;
+        }
+        //console.log(html);
+        //console.log(times[1]);
+        oAudio.addEventListener("timeupdate",function () {
+            var time = parseInt(this.currentTime);
+            //console.log(time)
+            if(document.getElementById('t'+time)){
+                document.getElementById("t"+time).style.color = "pink";
+            }
+            for(var i = 0; i < time;i++){
+                lyrText.style.marginTop = -(-26+time)+"px";
+            }
+        });
+        //静音
+        var oVol = document.getElementsByClassName("vol")[0];
+        oVol.onclick = function () {
+           if(mark){
+               oAudio.volume = 0;
+               mark =false;
+           }else {
+               oAudio.volume = ".5";
+               mark = true;
+           }
+        };
+        //下一首
+        var oNext = document.getElementsByClassName("next")[0],
+            oPre = document.getElementsByClassName("pre")[0],
+            songList = document.getElementsByTagName("li"),
+            index = 0;
+        oNext.addEventListener("click",function () {
+            index++;
+            if(index >songList.length-1){
+                index = 0;
+            }
+            //alert(index);
+            oAudio.src = songList[index].getAttribute("data-songname");
+            //alert(songList[index].getAttribute("data-songname"))
+        });
+        oPre.addEventListener("click",function () {
+            index--;
+            index < 0?index = songList.length-1:index;
+            //alert(index)
+            oAudio.src = songList[index].getAttribute("data-songname");
+        });
+        for(i = 0 ;i < songList.length;i++){
+            songList[i].index = i;
+            songList[i].onclick = function () {
+                //alert(this.index)
+                oAudio.src = this.getAttribute("data-songname");
+                oDuration.innerHTML = formTime(oAudio.duration);
+                oAudio.play();
+                timer = setInterval(nowTime,1000);
+
+                oImg.className = "move";
+                oPlayer.className = "play";
+                mark = false;
+            }
+        }
+        /*songList.addEventListener("click",function (e) {
+            var This = e.target || e.srcElement;
+            if(This.nodeName.toLowerCase() === "li"){
+                oAudio.src = This.getAttribute("data-songname");
+                oAudio.play();
+                oImg.className = "move";
+                oPlayer.className = "play";
+                mark = false;
+            }
+        })*/
+    </script>
+</body>
+</html>
