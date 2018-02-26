@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="Author" content="FengYu">
+    <title>Tz-36期Js</title>
+    <style type="text/css">
+        *{margin:0;padding:0;font-family: Microsoft YaHei,serif;}
+        li{list-style: none;}
+        body {
+            background: #000;
+        }
+        canvas {
+            margin:0 auto;
+            display: block;
+            background:#000;
+        }
+    </style>
+</head>
+<body>
+<canvas id="can" width="900" height="900">您的浏览器不支持canvas标签,请更换浏览器</canvas>
+<script type="text/javascript">
+    var oCan = document.getElementById("can"),
+        cxt = oCan.getContext("2d"),
+        time = 0;
+    //生成轨道
+    function drawCycle(){
+        for(var i = 0; i < 8;i++){
+            cxt.beginPath();
+            cxt.arc(450,450,(i+1)*50,0,Math.PI*2,true);
+            cxt.strokeStyle = "#fff";
+            cxt.stroke();
+            cxt.closePath();
+        }
+    }
+    //绘制星球
+   /* function drawStar(x,y,r,cycle,sColor,eColor) {
+        cxt.save();
+        cxt.translate(450,450);
+        cxt.rotate(time*Math.PI*360/cycle/180);
+        cxt.beginPath();
+        cxt.arc(x,y,r,0,Math.PI*2,true);
+        //渐变色
+        var color = cxt.createRadialGradient(x,y,0,x,y,r);
+        color.addColorStop(0,sColor);
+        color.addColorStop(1,eColor);
+        cxt.fillStyle = color;
+        cxt.fill();
+        cxt.closePath();
+        cxt.restore();
+        time+=.1;
+    }*/
+    /*function moveStar(){
+        cxt.clearRect(0,0,900,900);
+        drawCycle();
+        drawStar(0,0,30,0,"#f00","#ffd045");
+        drawStar(50,0,15,87.7,"#6945ff","#a5fbff");
+        drawStar(100,0,20,224.701,"#ff7379","#ffbec6");
+        drawStar(150,0,20,365.2422,"#e131ff","#ffbbf7");
+        drawStar(200,0,13,686.98,"#a5ff3b","#f2ff71");
+        drawStar(250,0,13,4332.589,"#8d0f63","#ff69f0");
+        drawStar(300,0,20,10759.5,"#ff2c86","#ff7b7e");
+        drawStar(350,0,15,30799.095,"#397d72","#41ffec");
+        drawStar(400,0,20,60152,"#2e235f","#baa8ff");
+    }
+    setInterval(moveStar,1000/60)*/
+    function Star(x,y,r,cycle){
+        this.x = x;
+        this.y = y;
+        this.r = r;
+        this.cycle = cycle;
+        this.time = 0;
+        this.drawStar = function (sColor,eColor) {
+            cxt.save();
+            cxt.translate(450,450);
+            cxt.rotate(this.time*Math.PI*360/this.cycle/180);
+            cxt.beginPath();
+            cxt.arc(this.x,this.y,this.r,0,Math.PI*2,true);
+            //渐变色
+            var color = cxt.createRadialGradient(this.x,this.y,0,this.x,this.y,this.r);
+            color.addColorStop(0,sColor);
+            color.addColorStop(1,eColor);
+            cxt.fillStyle = color;
+            cxt.fill();
+            cxt.closePath();
+            cxt.restore();
+            this.time += .1;
+        }
+    }
+    function Sun() {
+        Star.call(this,0,0,30,0)
+
+    }
+    function Mer(){
+        Star.call(this,50,0,15,87.7)
+    }
+    function Ven(){
+        Star.call(this,100,0,20,224.701)
+    }
+    function Ear(){
+        Star.call(this,150,0,20,365.2422)
+    }
+    function Mar() {
+        Star.call(this,200,0,13,686.98)
+    }
+    function Sat(){
+        Star.call(this,250,0,13,4332.589)
+    }
+    function Use(){
+        Star.call(this,300,0,20,10759.5)
+    }
+    function  Nep() {
+        Star.call(this,350,0,15,30799.095)
+    }
+    function Gup(){
+        Star.call(this,400,0,20,60152)
+    }
+    var sun = new Sun(),
+        mer = new Mer(),
+        ven = new Ven(),
+        ear = new Ear(),
+        mar = new Mar(),
+        sat = new Sat(),
+        use = new Use(),
+        nep = new Nep(),
+        gup = new Gup();
+
+   function moveStar(){
+       cxt.clearRect(0,0,900,900);
+       drawCycle();
+       sun.drawStar("#f00","#ffd045");
+       mer.drawStar("#6945ff","#a5fbff");
+       ven.drawStar("#ff7379","#ffbec6");
+       ear.drawStar("#e131ff","#ffbbf7");
+       mar.drawStar("#a5ff3b","#f2ff71");
+       sat.drawStar("#8d0f63","#ff69f0");
+       use.drawStar("#ff2c86","#ff7b7e");
+       nep.drawStar("#397d72","#41ffec");
+       gup.drawStar("#2e235f","#baa8ff");
+   }
+   setInterval(moveStar,1000/60);
+</script>
+</body>
+</html>
